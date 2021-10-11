@@ -36,6 +36,7 @@ export default function Login() {
                 <TextInput
                     style={styles.textButton}
                     placeholder="password"
+                    secureTextEntry
                 />
                 <Image style={styles.iconUser} source={userIcon}/>
             </View>
