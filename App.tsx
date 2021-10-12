@@ -1,19 +1,20 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import Login from "./src/modules/login/login";
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+      <SafeAreaView style={styles.safe}>
+        <Login/>
+      </SafeAreaView>
   );
 }
 
+
 const styles = StyleSheet.create({
-  container: {
+  safe: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    backgroundColor: '#f0ffff',
     justifyContent: 'center',
   },
 });
