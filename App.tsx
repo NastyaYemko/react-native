@@ -1,19 +1,44 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {ApolloClient, ApolloProvider, InMemoryCache, gql} from "@apollo/client";
+import {NavigationContainer} from "@react-navigation/native";
+import {createBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import { MaterialIcons } from '@expo/vector-icons';
+import NavigationUser from "./src/components/users/navigation/NavigationUser";
+import NavigationItem from "./src/components/items/navigation/NavigationItem";
 
 export default function App() {
+  const typeDefs = gql`
+        scalar Upload
+
+        type CreateItemInput {
+            title: String!
+            description: String!
+        }
+    `
+  const client = new ApolloClient({
+    uri: "http://localhost:3000/graphql",
+    cache: new InMemoryCache(),
+    typeDefs,
+  })
+  const MainStack = createBottomTabNavigator()
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-    </View>
+      <ApolloProvider client={client}>
+        <NavigationContainer>
+          <MainStack.Navigator>
+            <MainStack.Screen name="Items" component={NavigationItem} options={{
+              tabBarIcon: ({focused}) => <MaterialIcons size={30} name="face" color={ focused ? 'green' : 'black'}
+              />
+            }}/>
+              <MainStack.Screen
+                  name="Users"
+                  component={NavigationUser}
+                  options={{
+                      tabBarIcon: ({focused}) => <MaterialIcons size={30} name="person" color={ focused ? 'green' : 'black'}
+                      />
+                  }}
+              />
+          </MainStack.Navigator>
+        </NavigationContainer>
+      </ApolloProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
